@@ -59,29 +59,16 @@ def histogram_fig(df, cols):
     fig.update_traces(opacity=0.75)
     return fig
 
-
 @app.callback(
-    Output('mapL', 'figure'),
-    Input('submit_button', 'n_clicks'),
-    [State('radio_journey_1', 'value'),
-     State('radio_traj_1', 'value'),
-     State("radio_grao", "value"),
-     State('date-range', 'start_date'),
-     State('date-range', 'end_date')]
+    [Output('mapL', 'figure'),
+     Output('cum_dist_time', 'figure')],
+    Input("DataFrames", "data")
 )
-def update_graph_4x(n_clicks, journey, traj, grao, start_date, end_date):
-    if grao:
-        # df = data.traj_by_journey(journey)
-        df = data.traj_by_journey_date(journey, start_date, end_date)
-
-#    if grao:
-#        df = data.traj_by_journey(journey)
-    else:
-        df = data.traj_by_traj(traj)
-
-    fig = trajectories_to_fig(df)
-    # fig = hex_map(df)
-    return fig
+def update_graph_4x(json_df):
+    df = data.get_from_store(json_df)
+    map_fig = trajectories_to_fig(df)
+    scatter_fig = scatter_dist_time(df)
+    return map_fig, scatter_fig
 
 
 def scatter_dist_time(df):
@@ -91,37 +78,3 @@ def scatter_dist_time(df):
         color="speed", color_continuous_scale="Edge"
     )
     return fig
-
-
-@app.callback(
-    [Output('cum_dist_time', 'figure'),
-     Output("describe_table", "columns"),
-     Output("describe_table", "data")],
-    Input('submit_button', 'n_clicks'),
-    [State('radio_journey_1', 'value'),
-     State('radio_traj_1', 'value'),
-     State("radio_grao", "value"),
-     State('date-range', 'start_date'),
-     State('date-range', 'end_date')]
-)
-def update_graph_4y(n_clicks, journey, traj, grao, start_date, end_date):
-    start_date_object = date.fromisoformat(start_date)
-    print(start_date_object)
-    if grao:
-        # df = data.traj_by_journey(journey)
-        df = data.traj_by_journey_date(journey, start_date, end_date)
-    else:
-        df = data.traj_by_traj(traj)
-    fig = scatter_dist_time(df)
-    dfd = df[["speed", "acceleration", "hour"]].describe()
-    columns = [{"name": i, "id": i} for i in dfd.columns]
-    datat = dfd.to_dict('records')
-    return (fig, columns, datat)
-
-
-def create_table(df):
-    return dash_table.DataTable(
-        id='table',
-        columns=[{"name": i, "id": i} for i in df.columns],
-        data=df.to_dict('records'),
-    )

@@ -66,7 +66,5 @@ def cumsum_by_traj(df):
     df["cum_time"] = df['delta_time'].cumsum(axis=0)
     df["speed"] = df["speed"] * 3.6
     df=df[df["speed"] < 100]
-    df["cum_dist"] = df["cum_dist"]
     df["cum_time"] = df["cum_time"] / 60
-
     return df
