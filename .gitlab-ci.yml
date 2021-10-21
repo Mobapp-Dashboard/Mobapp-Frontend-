@@ -1,0 +1,48 @@
+image: tiangolo/docker-with-compose
+
+before_script:
+  - docker login -u $USR_HUB -p $PSS_HUB $CI_REGISTRY
+  - echo "$DOTENV" > .env
+  - pip install docker-auto-labels
+
+stages:
+  - test
+  - build
+  - deploy
+
+tests:
+  stage: test
+  script:
+    #- sh ./scripts/test.sh
+    - echo "Jumping test... Illegal instruction caused by tensorflow"
+  tags:
+    - build
+    - test
+
+build-prod:
+  stage: build
+  script:
+    - sh ./scripts/build.sh
+  only:
+    - main
+  tags:
+    - build
+    - test
+
+deploy-prod:
+  stage: deploy
+  script:
+    - >
+      DOMAIN=dash.klh.criptofesta.org
+      TRAEFIK_TAG=dash.klh.criptofesta.org
+      STACK_NAME=mobdash
+      TAG=prod
+      sh ./scripts/deploy.sh
+  environment:
+    name: production
+    url: https://dash.klh.criptofesta.org
+  only:
+    - main
+  tags:
+    - swarm
+    - prod
