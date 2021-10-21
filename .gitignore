@@ -1,3 +1,5 @@
+cache-directory/
+
 .DS_Store
 .idea
 *.log
