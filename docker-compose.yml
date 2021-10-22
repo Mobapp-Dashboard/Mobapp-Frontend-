@@ -73,7 +73,6 @@ services:
     environment:
       - SERVER_NAME=dash.klh.criptofesta.org
       - SERVER_HOST=https://dash.klh.criptofesta.org
-      - TARGET=$TARGET
     build:
       context: .
       dockerfile: Dockerfile

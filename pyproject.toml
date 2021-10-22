@@ -20,6 +20,7 @@ black = "^21.9b0"
 [tool.poetry.dev-dependencies]
 black = "^21.9b0"
 python-lsp-server = "^1.2.4"
+docker-auto-labels = "^0.2.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

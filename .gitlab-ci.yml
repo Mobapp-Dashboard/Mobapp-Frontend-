@@ -2,7 +2,6 @@ image: tiangolo/docker-with-compose
 
 before_script:
   - docker login -u $USR_HUB -p $PSS_HUB $CI_REGISTRY
-  - echo "$DOTENV" > .env
   - pip install docker-auto-labels
 
 stages:
