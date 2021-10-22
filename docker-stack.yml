@@ -1,0 +1,62 @@
+networks:
+  traefik-public:
+    external: true
+    name: traefik-public
+services:
+  dash:
+    build:
+      context: /home/saci/hd/projetos/mobapp/frontend-mobapp
+      dockerfile: Dockerfile
+    container_name: dash
+    deploy:
+      labels:
+      - traefik.enable=true
+      - traefik.constraint-label-stack=dash.klh.criptofesta.org
+      - traefik.http.routers.mobdash-dash-http.rule=Host(`dash.klh.criptofesta.org`)
+      - traefik.http.services.mobdash-dash.loadbalancer.server.port=8085
+      - traefik.docker.network=traefik-public
+    environment:
+      SERVER_HOST: https://dash.klh.criptofesta.org
+      SERVER_NAME: dash.klh.criptofesta.org
+    image: dash
+    networks:
+      traefik-public: null
+  proxy:
+    command:
+    - --providers.docker
+    - --providers.docker.constraints=Label(`traefik.constraint-label-stack`, `dash.klh.criptofesta.org`)
+    - --providers.docker.exposedbydefault=false
+    - --providers.docker.swarmmode
+    - --accesslog
+    - --log
+    - --api
+    deploy:
+      labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.constraint-label=traefik-public
+      - traefik.http.middlewares.mobdash-https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.mobdash-https-redirect.redirectscheme.permanent=true
+      - traefik.http.routers.mobdash-proxy-http.rule=Host(`dash.klh.criptofesta.org`)
+        || Host(`www.dash.klh.criptofesta.org`)
+      - traefik.http.routers.mobdash-proxy-http.entrypoints=http
+      - traefik.http.routers.mobdash-proxy-https.rule=Host(`dash.klh.criptofesta.org`)
+        || Host(`www.dash.klh.criptofesta.org`)
+      - traefik.http.routers.mobdash-proxy-https.entrypoints=https
+      - traefik.http.routers.mobdash-proxy-https.tls=true
+      - traefik.http.routers.mobdash-proxy-https.tls.certresolver=le
+      - traefik.http.services.mobdash-proxy.loadbalancer.server.port=80
+      - traefik.http.middlewares.mobdash-www-redirect.redirectregex.regex=^https?://(www.)?(dash.klh.criptofesta.org)/(.*)
+      - traefik.http.middlewares.mobdash-www-redirect.redirectregex.replacement=https://dash.klh.criptofesta.org/$${3}
+      - traefik.http.routers.mobdash-proxy-https.middlewares=mobdash-www-redirect
+      - traefik.http.routers.mobdash-proxy-http.middlewares=mobdash-www-redirect,mobdash-https-redirect
+      placement:
+        constraints:
+        - node.role == manager
+    image: traefik:v2.2
+    networks:
+      traefik-public: null
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:rw
+version: '3.7'
+
