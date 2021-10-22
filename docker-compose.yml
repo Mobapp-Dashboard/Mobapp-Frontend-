@@ -68,7 +68,7 @@ services:
         - traefik.http.routers.mobdash-proxy-http.middlewares=mobdash-www-redirect,mobdash-https-redirect
 
   dash:
-    image: dash:$VERSION
+    image: dash
     container_name: dash
     environment:
       - SERVER_NAME=dash.klh.criptofesta.org
