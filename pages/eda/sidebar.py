@@ -30,6 +30,19 @@ controls = dbc.FormGroup(
             labelStyle={'display': 'inline-block'}
         ),
         html.Br(),
+        dcc.RadioItems(
+            id="radio_turno",
+            options=[
+                {'label': 'Todos', 'value': 0},
+                {'label': 'Manhã', 'value': 1},
+                {'label': 'Tarde', 'value': 2},
+                {'label': 'Noite', 'value': 3},
+                {'label': 'Madrugada', 'value': 4},
+            ],
+            value=0,
+            labelStyle={'display': 'inline-block'}
+        ),
+        html.Br(),
         dbc.Card([dcc.Dropdown(
             id='radio_journey_1',
             options=[],

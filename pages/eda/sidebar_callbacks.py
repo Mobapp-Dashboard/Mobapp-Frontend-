@@ -38,3 +38,4 @@ def traj_by_journey_date(journey, start_date, end_date):
      Input('date-range', 'end_date')])
 def att_traj_1(journey, start_date, end_date):
     return traj_by_journey_date(journey, start_date, end_date)
+

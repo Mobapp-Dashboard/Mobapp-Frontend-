@@ -62,10 +62,19 @@ def histogram_fig(df, cols):
 @app.callback(
     [Output('mapL', 'figure'),
      Output('cum_dist_time', 'figure')],
-    Input("DataFrames", "data")
+    [Input("DataFrames", "data"),
+    Input("radio_turno", "value")]
 )
-def update_graph_4x(json_df):
+def update_graph_4x(json_df, turno):
     df = data.get_from_store(json_df)
+
+    if(turno != 0):
+        turno_col = "day_moment"
+        df = df[df[turno_col] == turno_dict[turno]]
+
+    map_fig = trajectories_to_fig(df)
+    scatter_fig = scatter_dist_time(df)
+
     map_fig = trajectories_to_fig(df)
     scatter_fig = scatter_dist_time(df)
     return map_fig, scatter_fig
@@ -78,3 +87,11 @@ def scatter_dist_time(df):
         color="speed", color_continuous_scale="Edge"
     )
     return fig
+
+
+turno_dict = {
+    1: "MANHÃ",
+    2: "TARDE",
+    3: "NOITE",
+    4: "MADRUGADA"
+}
