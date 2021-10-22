@@ -33,9 +33,10 @@ def trajectories_to_fig(df, n=5):
         lat="lat", lon="lng",
         height=600,
         hover_data=['instant', "trajectory_id", "cum_dist"],
-        color="speed", opacity=0.5, color_continuous_scale="Edge"
+        color="speed", opacity=1, color_continuous_scale="Edge"
     )
     map_layout(fig)
+
     return fig
 
 
