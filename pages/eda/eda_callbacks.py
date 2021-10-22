@@ -2,7 +2,7 @@
 
 from datetime import date
 
-import dash_table
+import dash
 import plotly.express as px
 import plotly.graph_objects as go
 from app import app
@@ -62,11 +62,22 @@ def histogram_fig(df, cols):
 @app.callback(
     [Output('mapL', 'figure'),
      Output('cum_dist_time', 'figure')],
-    [Input("DataFrames", "data"),
-    Input("radio_turno", "value")]
+    [Input("submit_button", "n_clicks"),
+     Input("DataFrames", "data"),
+     Input("radio_turno", "value"),
+     Input('mapL', 'clickData')]
 )
-def update_graph_4x(json_df, turno):
+def update_graph_4x(n_clicks, json_df, turno, clickJson):
+    ctx = dash.callback_context
+
+    if (ctx.triggered[0]["prop_id"].split('.')[0] == "submit_button"):
+        clickJson = None
+
     df = data.get_from_store(json_df)
+
+    if(clickJson is not None):
+        traj = clickJson["points"][0]["customdata"][1]
+        df = df[df["trajectory_id"] == traj]
 
     if(turno != 0):
         turno_col = "day_moment"
@@ -74,6 +85,7 @@ def update_graph_4x(json_df, turno):
 
     map_fig = trajectories_to_fig(df)
     scatter_fig = scatter_dist_time(df)
+
 
     map_fig = trajectories_to_fig(df)
     scatter_fig = scatter_dist_time(df)
@@ -95,3 +107,5 @@ turno_dict = {
     3: "NOITE",
     4: "MADRUGADA"
 }
+
+import json

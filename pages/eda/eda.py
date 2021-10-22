@@ -40,5 +40,13 @@ content = html.Div([
         map_eda,
         stats_plots
     ], style=CONTENT_STYLE),
+    html.Div([
+            dcc.Markdown("""
+                **Click Data**
+
+                Click on points in the graph.
+            """),
+            html.Pre(id='click-data')
+    ]),
     dcc.Store(id="DataFrames")
 ])
