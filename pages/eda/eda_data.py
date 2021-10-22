@@ -23,8 +23,6 @@ def traj_by_journey(journey):
 def traj_by_journey_date(journey, start_date, end_date):
     url = f"http://{BACKEND}/api/v1/dublin_points/points/?journey_id={journey}&start_date={start_date}&end_date={end_date}"
     df = get_traj(url)
-    print("~")
-    print(df["day"].unique())
     return df
 
 def get_from_store(json_df):
@@ -42,5 +40,4 @@ def get_from_store(json_df):
 )
 def store_dataframe(n_clicks, journey, traj, grao, start_date, end_date):
     df = traj_by_journey_date(journey, start_date, end_date)
-    print(df.columnss)
     return df.to_json(date_format='iso', orient='split')
