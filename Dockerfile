@@ -15,7 +15,7 @@ RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; els
 
 COPY . ./
 
-ENV DASH_ENV_FILE=".env"
+ENV DASH_ENV_FILE=".env.prod"
 
 EXPOSE 8085
 ENTRYPOINT ["python", "index.py"]
