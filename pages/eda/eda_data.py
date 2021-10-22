@@ -29,7 +29,6 @@ def traj_by_journey_date(journey, start_date, end_date):
 
 def get_from_store(json_df):
     df = pd.read_json(json_df, orient='split')
-    print (len(df))
     return df
 
 @app.callback(
@@ -42,7 +41,6 @@ def get_from_store(json_df):
      State('date-range', 'end_date')]
 )
 def store_dataframe(n_clicks, journey, traj, grao, start_date, end_date):
-    if grao:
-        df = traj_by_journey_date(journey, start_date, end_date)
-    print(df.iloc[100])
+    df = traj_by_journey_date(journey, start_date, end_date)
+    print(df.columnss)
     return df.to_json(date_format='iso', orient='split')

@@ -1,6 +1,7 @@
 #!/usr/bin/env ipython
 
 from datetime import date
+import json
 
 import dash
 import plotly.express as px
@@ -86,9 +87,6 @@ def update_graph_4x(n_clicks, json_df, turno, clickJson):
     map_fig = trajectories_to_fig(df)
     scatter_fig = scatter_dist_time(df)
 
-
-    map_fig = trajectories_to_fig(df)
-    scatter_fig = scatter_dist_time(df)
     return map_fig, scatter_fig
 
 
@@ -108,4 +106,3 @@ turno_dict = {
     4: "MADRUGADA"
 }
 
-import json
