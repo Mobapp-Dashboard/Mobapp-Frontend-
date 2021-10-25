@@ -24,7 +24,12 @@ content = html.Div(
     [
         sidebar,
         html.Div(
-            [html.H3("Análise de Modelos"), map_adr, p_rec_plot,], style=CONTENT_STYLE
+            [
+                html.H3("Análise de Modelos"),
+                map_adr,
+                p_rec_plot,
+            ],
+            style=CONTENT_STYLE
         ),
     ]
 )

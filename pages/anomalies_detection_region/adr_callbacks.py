@@ -11,6 +11,7 @@ from environment.settings import BACKEND
 from utils import figure_functions as ff
 from utils import request_functions as rf
 
+from . import adr_data as data
 
 def trajectory_2_fig(df, dfa, dfr):
 
@@ -77,21 +78,6 @@ def trajectory_2_fig(df, dfa, dfr):
     return fig
 
 
-def get_traj(rota, traj):
-    url = f"http://{BACKEND}/api/v1/dublin_model/meta_trajectory/?trajectory_id={traj}&routes={rota}"
-    r = requests.get(url).json()
-    df = pd.DataFrame(r)
-    df = df.sort_values("index")
-    return df
-
-def get_eval(rota):
-    url = f"http://{BACKEND}/api/v1/dublin_model/evals/transformer/{rota}"
-    r = requests.get(url).json()
-    df = pd.DataFrame(r)
-    df = df.sort_values("index")
-    return df
-
-
 
 @app.callback(
     Output("map_ad", "figure"),
@@ -99,9 +85,10 @@ def get_eval(rota):
     [State("rota_model", "value"), State("traj_model", "value")],
 )
 def update_graph_model(n_clicks, rota, traj):
-    df = get_traj(rota, traj)
+    df = data.traj_by_rota_traj(rota, traj)
+
     if traj >= 50:
-        df1 = get_traj(rota, traj % 50)
+        df1 = data.traj_by_rota_traj(rota, traj % 50)
     else:
         df1 = df
 
@@ -109,42 +96,34 @@ def update_graph_model(n_clicks, rota, traj):
 
     return trajectory_2_fig(df, df[compare], df1)
 
-@app.callback(
-    Output("p_rec", "figure"),
-    Input("model_button", "n_clicks"),
-    [State("rota_model", "value")]
-)
-def update_pr_curve(n_clicks, rota):
-    df = get_eval(rota)
+
+def df_to_pr_curve(df):
     precision = df["precision"].values
     recall = df["recall"].values
     auc = df["auc"].unique()[0]
-    
+
     fig = px.area(
         x=recall, y=precision,
         title=f'Precision-Recall Curve (AUC={auc:.4f})',
         labels=dict(x='Recall', y='Precision'),
         width=700, height=500
     )
+
     fig.add_shape(
         type='line', line=dict(dash='dash'),
         x0=0, x1=1, y0=1, y1=0
     )
+
     fig.update_yaxes(scaleanchor="x", scaleratio=1)
     fig.update_xaxes(constrain='domain')
     return fig
 
-# @app.callback(
-#    Output('map_ad_gt', 'figure'),
-#    Input('model_button', 'n_clicks'),
-#    [State('rota_model', 'value'),
-#     State('traj_model', 'value')
-#     ])
-# def update_graph_model2(n_clicks, rota, traj):
-#    traj = traj % 50
-#    print(f"traj: {traj}")
-#    url = f"http://{BACKEND}/api/v1/dublin_model/meta_trajectory/?trajectory_id={traj}&routes={rota}"
-#    r = requests.get(url).json()
-#    df = pd.DataFrame(r)
-#    df = df.sort_values("index")
-#    return trajectory_2_fig(df, None)
+@app.callback(
+    Output("p_rec", "figure"),
+    Input("model_button", "n_clicks"),
+    [State("rota_model", "value")]
+)
+def update_pr_curve(n_clicks, rota):
+    df = data.get_eval(rota)
+    fig = df_to_pr_curve(df)
+    return fig
