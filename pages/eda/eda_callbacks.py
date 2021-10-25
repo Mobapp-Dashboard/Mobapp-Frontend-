@@ -107,3 +107,12 @@ turno_dict = {
     4: "MADRUGADA"
 }
 
+@app.callback(
+    Output("collapse", "is_open"),
+    [Input("sumario-button", "n_clicks")],
+    [State("collapse", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open

@@ -20,6 +20,7 @@ controls = dbc.FormGroup(
             end_date=date(2013, 1, 1)
         ),
         html.Br(),
+        html.Br(),
         dcc.RadioItems(
             id="radio_grao",
             options=[
@@ -67,7 +68,7 @@ controls = dbc.FormGroup(
 
 sidebar = html.Div(
     [
-        html.H2('Comparação de Modelos', style=TEXT_STYLE),
+        html.H2('Análise Exploratória de Dados', style=TEXT_STYLE),
         html.Hr(),
         controls
     ],

@@ -11,42 +11,56 @@ from .sidebar import sidebar
 
 map_eda = dbc.Row(
     [
+        dbc.Col(html.Div([
+            html.H2("Mapa"),
+            html.Br(),
+        ]), md=12),
         dbc.Col(
-            html.Div("Selecione ou exclua trajetórias clicando na legenda."),
-            md=10
-        ),
-        dbc.Col(
-            dcc.Graph(id='mapL'),
+            html.Div([
+                dcc.Graph(id='mapL'),
+                html.Br(),
+                html.Hr(),
+            ]),
             md=12,
         )
     ])
 
-stats_plots = dbc.Row([
-    dbc.Col(
-        dcc.Graph(id='cum_dist_time'),
-        md=7,
-    ),
-    dbc.Col(
-        dash_table.DataTable(id='describe_table'),
-        md=12,
-    ),
+stats_plots = dbc.Row(
+    [
+        dbc.Col(
+            html.Div([
+                html.H2("Distância x Tempo (acumulados)"),
+                dcc.Graph(id='cum_dist_time')
+            ]),
+            md=7,
+        ),
+        dbc.Col(
+            [
+                dbc.Button(
+                    "Sumário",
+                    id="sumario-button",
+                    className="mb-3",
+                    color="primary",
+                    n_clicks=0,
+                ),
+                dbc.Collapse(
+                    dbc.Card(
+                        dbc.CardBody(
+                            [
+                                html.P("Aqui haverá uma tabela de sumário"),
+                                dash_table.DataTable(id='describe_table'),
+                            ])),
+                    id="collapse",
+                    is_open=False,),
+            ], md=5)
+    ])
 
-])
 
 content = html.Div([
     sidebar,
     html.Div([
-        html.H3('Análise Exploratória de Dados'),
         map_eda,
         stats_plots
     ], style=CONTENT_STYLE),
-    html.Div([
-            dcc.Markdown("""
-                **Click Data**
-
-                Click on points in the graph.
-            """),
-            html.Pre(id='click-data')
-    ]),
     dcc.Store(id="DataFrames")
 ])
