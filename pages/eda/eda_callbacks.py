@@ -2,7 +2,7 @@
 
 from datetime import date
 import json
-
+import dash_bootstrap_components as dbc
 import dash
 import plotly.express as px
 import plotly.graph_objects as go
@@ -108,11 +108,22 @@ turno_dict = {
 }
 
 @app.callback(
-    Output("collapse", "is_open"),
-    [Input("sumario-button", "n_clicks")],
-    [State("collapse", "is_open")],
+     Output("tabela-sumario", "children"),
+     Input("DataFrames", "data")
 )
-def toggle_collapse(n, is_open):
-    if n:
-        return not is_open
-    return is_open
+def tabela_sumario(json_df):
+
+    df = data.get_from_store(json_df)
+    df = df[["speed", "acceleration", "delta_dist", "delta_time"]]
+    dfs = df.describe()
+    dfs.iloc[1:] = dfs.iloc[1:].applymap("{:,.2f}".format)
+    dfs = dfs.reset_index()
+    dfs.columns = [
+        "Medida", "Velocidade (km/h)", "Aceleração(m/s^2)",
+        "Distância entre pontos (m)", "Tempo entre pontos (s)"
+    ]
+
+    dfs
+
+    table = dbc.Table.from_dataframe(dfs, striped=True, bordered=True, hover=True)
+    return table

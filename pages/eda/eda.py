@@ -32,27 +32,14 @@ stats_plots = dbc.Row(
                 html.H2("Distância x Tempo (acumulados)"),
                 dcc.Graph(id='cum_dist_time')
             ]),
-            md=7,
+            md=6,
         ),
-        dbc.Col(
-            [
-                dbc.Button(
-                    "Sumário",
-                    id="sumario-button",
-                    className="mb-3",
-                    color="primary",
-                    n_clicks=0,
-                ),
-                dbc.Collapse(
-                    dbc.Card(
-                        dbc.CardBody(
-                            [
-                                html.P("Aqui haverá uma tabela de sumário"),
-                                dash_table.DataTable(id='describe_table'),
-                            ])),
-                    id="collapse",
-                    is_open=False,),
-            ], md=5)
+        dbc.Col([
+            html.H2("Sumário"),
+            html.Div(id="tabela-sumario"),
+        ],
+                md=6),
+
     ])
 
 
@@ -64,3 +51,24 @@ content = html.Div([
     ], style=CONTENT_STYLE),
     dcc.Store(id="DataFrames")
 ])
+
+#
+#        dbc.Col(
+#            [
+#                dbc.Button(
+#                    "Sumário",
+#                    id="sumario-button",
+#                    className="mb-3",
+#                    color="primary",
+#                    n_clicks=0,
+#                ),
+#                dbc.Collapse(
+#                    dbc.Card(
+#                        dbc.CardBody(
+#                            [
+#                                html.P("Aqui haverá uma tabela de sumário"),
+#                            ])),
+#                    id="collapse",
+#                    is_open=False,),
+#            ], md=6)
+#
