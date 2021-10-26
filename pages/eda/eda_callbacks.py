@@ -64,25 +64,33 @@ def histogram_fig(df, cols):
 @app.callback(
     [Output('mapL', 'figure'),
      Output('cum_dist_time', 'figure'),
-     Output("radio_turno", "value")],
+     Output("radio_turno", "value"),
+     Output("tabela-sumario", "children")],
     [Input("submit_button", "n_clicks"),
      Input("reset_button", "n_clicks"),
      Input("DataFrames", "data"),
      Input("radio_turno", "value"),
-     Input('mapL', 'clickData')]
+     Input('mapL', 'clickData'),
+     Input('cum_dist_time', 'clickData')]
 )
-def update_graph_4x(n_clicks, r_clicks, json_df, turno, clickJson):
+def update_graph_4x(n_clicks, r_clicks, json_df, turno, click_map, click_scatter):
     ctx = dash.callback_context
 
     if (ctx.triggered[0]["prop_id"].split('.')[0] == "reset_button"):
-        clickJson = None
+        click_map = None
+        click_scatter = None
         turno = 0
 
     df = data.get_from_store(json_df)
 
-    if(clickJson is not None):
-        traj = clickJson["points"][0]["customdata"][1]
+    if(click_map is not None):
+        traj = click_map["points"][0]["customdata"][1]
         df = df[df["trajectory_id"] == traj]
+
+    if(click_scatter is not None):
+        traj = click_scatter["points"][0]["customdata"][0]
+        df = df[df["trajectory_id"] == traj]
+
 
     if(turno != 0):
         turno_col = "day_moment"
@@ -91,7 +99,19 @@ def update_graph_4x(n_clicks, r_clicks, json_df, turno, clickJson):
     map_fig = trajectories_to_fig(df)
     scatter_fig = scatter_dist_time(df)
 
-    return map_fig, scatter_fig, turno
+    #df = data.get_from_store(json_df)
+    df = df[["speed", "acceleration", "delta_dist", "delta_time"]]
+    dfs = df.describe()
+    dfs.iloc[1:] = dfs.iloc[1:].applymap("{:,.2f}".format)
+    dfs = dfs.reset_index()
+    dfs.columns = [
+        "Medida", "Velocidade (km/h)", "Aceleração(m/s^2)",
+        "Distância entre pontos (m)", "Tempo entre pontos (s)"
+    ]
+
+    table = dbc.Table.from_dataframe(dfs, striped=True, bordered=True, hover=True)
+
+    return map_fig, scatter_fig, turno, table
 
 
 def scatter_dist_time(df):
@@ -110,23 +130,24 @@ turno_dict = {
     4: "MADRUGADA"
 }
 
-@app.callback(
-     Output("tabela-sumario", "children"),
-     Input("DataFrames", "data")
-)
-def tabela_sumario(json_df):
-
-    df = data.get_from_store(json_df)
-    df = df[["speed", "acceleration", "delta_dist", "delta_time"]]
-    dfs = df.describe()
-    dfs.iloc[1:] = dfs.iloc[1:].applymap("{:,.2f}".format)
-    dfs = dfs.reset_index()
-    dfs.columns = [
-        "Medida", "Velocidade (km/h)", "Aceleração(m/s^2)",
-        "Distância entre pontos (m)", "Tempo entre pontos (s)"
-    ]
-
-    dfs
-
-    table = dbc.Table.from_dataframe(dfs, striped=True, bordered=True, hover=True)
-    return table
+#@app.callback(
+#
+#     Input("DataFrames", "data")
+#)
+#def tabela_sumario(json_df):
+#
+#    df = data.get_from_store(json_df)
+#    df = df[["speed", "acceleration", "delta_dist", "delta_time"]]
+#    dfs = df.describe()
+#    dfs.iloc[1:] = dfs.iloc[1:].applymap("{:,.2f}".format)
+#    dfs = dfs.reset_index()
+#    dfs.columns = [
+#        "Medida", "Velocidade (km/h)", "Aceleração(m/s^2)",
+#        "Distância entre pontos (m)", "Tempo entre pontos (s)"
+#    ]
+#
+#    dfs
+#
+#    table = dbc.Table.from_dataframe(dfs, striped=True, bordered=True, hover=True)
+#    return table
+#

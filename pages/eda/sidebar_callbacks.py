@@ -42,6 +42,7 @@ def att_traj_1(journey, start_date, end_date):
 
 
 @app.callback(Output("click-log", "children"),
-              Input('mapL', 'clickData'))
-def click_logging(clickData):
-    return json.dumps(clickData, indent=2)
+              [Input('mapL', 'clickData'),
+               Input("cum_dist_time", "clickData")])
+def click_logging(click_map, click_scatter):
+    return [json.dumps(click_map, indent=2), json.dumps(click_scatter, indent=2)]
