@@ -27,13 +27,13 @@ def map_layout(fig):
     )
 
 
-def trajectories_to_fig(df, n=5):
+def trajectories_to_fig(df, n=5, cor="speed"):
     fig = px.scatter_mapbox(
         df,
         lat="lat", lon="lng",
         height=600,
         hover_data=['instant', "trajectory_id", "cum_dist"],
-        color="speed", opacity=1, color_continuous_scale="Edge"
+        color=cor, opacity=1, color_continuous_scale="Turbo"
     )
     map_layout(fig)
 
@@ -70,10 +70,11 @@ def histogram_fig(df, cols):
      Input("reset_button", "n_clicks"),
      Input("DataFrames", "data"),
      Input("radio_turno", "value"),
+     Input("radio_cor", "value"),
      Input('mapL', 'clickData'),
      Input('cum_dist_time', 'clickData')]
 )
-def update_graph_4x(n_clicks, r_clicks, json_df, turno, click_map, click_scatter):
+def update_graph_4x(n_clicks, r_clicks, json_df, turno, cor, click_map, click_scatter):
     ctx = dash.callback_context
 
     if (ctx.triggered[0]["prop_id"].split('.')[0] == "reset_button"):
@@ -96,8 +97,8 @@ def update_graph_4x(n_clicks, r_clicks, json_df, turno, click_map, click_scatter
         turno_col = "day_moment"
         df = df[df[turno_col] == turno_dict[turno]]
 
-    map_fig = trajectories_to_fig(df)
-    scatter_fig = scatter_dist_time(df)
+    map_fig = trajectories_to_fig(df, cor=cor)
+    scatter_fig = scatter_dist_time(df, cor=cor)
 
     #df = data.get_from_store(json_df)
     df = df[["speed", "acceleration", "delta_dist", "delta_time"]]
@@ -114,11 +115,11 @@ def update_graph_4x(n_clicks, r_clicks, json_df, turno, click_map, click_scatter
     return map_fig, scatter_fig, turno, table
 
 
-def scatter_dist_time(df):
+def scatter_dist_time(df, cor="speed"):
     fig = px.scatter(
         df, x="cum_dist", y="cum_time",
         hover_data=["trajectory_id"],
-        color="speed", color_continuous_scale="Edge"
+        color=cor, color_continuous_scale="Turbo"
     )
     return fig
 

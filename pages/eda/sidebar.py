@@ -85,12 +85,27 @@ control_painel = dbc.FormGroup([
         ),
 ])
 
+control_color = html.Div([
+    html.P("Selecionar o atributo destacado nos pontos"),
+    dcc.RadioItems(
+        id="radio_cor",
+        options=[
+            {'label': 'Velocidade', 'value': "speed"},
+            {'label': 'Aceleração', 'value': "acceleration"},
+            {'label': 'Distância (acumulada)', 'value': "cum_dist"},
+            {'label': 'Tempo (acumulado)', 'value': "cum_time"}
+        ],
+        value="speed",
+        labelStyle={'display': 'inline-block'}
+    )])
+
 sidebar = html.Div(
     [
         html.H2('Análise Exploratória de Dados', style=TEXT_STYLE),
         html.Hr(),
         controls,
         html.Hr(),
+        control_color,
         html.Hr(),
         html.Hr(),
         control_painel,
