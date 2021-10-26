@@ -6,7 +6,7 @@ from app import app
 from dash.dependencies import Input, Output
 from pages.anomalies_detection_region import adr
 from pages.eda import eda
-from time import time
+import time
 
 layout = html.Div([
     html.H1('Dashboard: Mobilidade Urbana'),
