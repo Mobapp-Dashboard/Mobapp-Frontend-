@@ -1,7 +1,8 @@
 #!/usr/bin/env ipython
 
-
+import json
 from app import app
+
 from dash.dependencies import Input, Output
 from utils.extract_data import get_journey_by_date, get_traj_by_journey_date
 
@@ -39,3 +40,8 @@ def traj_by_journey_date(journey, start_date, end_date):
 def att_traj_1(journey, start_date, end_date):
     return traj_by_journey_date(journey, start_date, end_date)
 
+
+@app.callback(Output("click-log", "children"),
+              Input('mapL', 'clickData'))
+def click_logging(clickData):
+    return json.dumps(clickData, indent=2)

@@ -66,11 +66,34 @@ controls = dbc.FormGroup(
     ]
 )
 
+
+control_painel = dbc.FormGroup([
+    html.H2("Painel de Controle", style={"textAlign": "center"}),
+    html.Hr(),
+    html.P("Dados do ponto clicado"),
+    html.Div(id="click-log", style={
+        'border': 'thin lightgrey solid',
+        'overflowX': 'scroll'
+    }),
+    html.Hr(),
+    dbc.Button(
+            id='reset_button',
+            n_clicks=0,
+            children='Reset',
+            color='primary',
+            block=True
+        ),
+])
+
 sidebar = html.Div(
     [
         html.H2('Análise Exploratória de Dados', style=TEXT_STYLE),
         html.Hr(),
-        controls
+        controls,
+        html.Hr(),
+        html.Hr(),
+        html.Hr(),
+        control_painel,
     ],
     style=SIDEBAR_STYLE,
 )

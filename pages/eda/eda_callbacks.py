@@ -63,17 +63,20 @@ def histogram_fig(df, cols):
 
 @app.callback(
     [Output('mapL', 'figure'),
-     Output('cum_dist_time', 'figure')],
+     Output('cum_dist_time', 'figure'),
+     Output("radio_turno", "value")],
     [Input("submit_button", "n_clicks"),
+     Input("reset_button", "n_clicks"),
      Input("DataFrames", "data"),
      Input("radio_turno", "value"),
      Input('mapL', 'clickData')]
 )
-def update_graph_4x(n_clicks, json_df, turno, clickJson):
+def update_graph_4x(n_clicks, r_clicks, json_df, turno, clickJson):
     ctx = dash.callback_context
 
-    if (ctx.triggered[0]["prop_id"].split('.')[0] == "submit_button"):
+    if (ctx.triggered[0]["prop_id"].split('.')[0] == "reset_button"):
         clickJson = None
+        turno = 0
 
     df = data.get_from_store(json_df)
 
@@ -88,7 +91,7 @@ def update_graph_4x(n_clicks, json_df, turno, clickJson):
     map_fig = trajectories_to_fig(df)
     scatter_fig = scatter_dist_time(df)
 
-    return map_fig, scatter_fig
+    return map_fig, scatter_fig, turno
 
 
 def scatter_dist_time(df):
