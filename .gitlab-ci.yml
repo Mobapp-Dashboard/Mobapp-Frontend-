@@ -13,7 +13,7 @@ tests:
   stage: test
   script:
     #- sh ./scripts/test.sh
-    - echo "Jumping test... Illegal instruction caused by tensorflow"
+    - echo "Jumping test... =o"
   tags:
     - build
     - test
