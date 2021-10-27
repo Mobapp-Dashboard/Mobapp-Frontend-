@@ -16,6 +16,11 @@ def traj_by_rota_traj(rota, traj):
     df = get_traj(url, sort_by="index")
     return df
 
+def trajs_by_rota(rota):
+    url = f"http://{BACKEND}/api/v1/dublin_model/meta_trajectory/?routes={rota}"
+    df = get_traj(url, sort_by="index")
+    return df
+
 def get_eval(rota):
     models = ["transformer", "riobusdata", "gmvsae"]
     dfs = []

@@ -13,6 +13,44 @@ from utils import request_functions as rf
 
 from . import adr_data as data
 
+
+def rota_2_fig(df):
+    dfn = df[df["trajectory_id"] < 50]
+    dfa = df[df["trajectory_id"] >= 50]
+    fig = go.Figure(
+        go.Scattermapbox(
+            name="Rotas sem Anomalias",
+            lat=dfn["lat"],
+            lon=dfn["lng"],
+            mode="markers",
+            marker=go.scattermapbox.Marker(size=8, color="rgb(0, 100, 142)", opacity=1),
+        )
+    )
+
+    fig.add_trace(
+        go.Scattermapbox(
+            name="Trajetos com Anomalias",
+            lat=dfa["lat"],
+            lon=dfa["lng"],
+            mode="markers",
+            visible="legendonly",
+            marker=go.scattermapbox.Marker(
+                size=8, color="rgb(175, 0, 42)", opacity=0.5
+            ),
+        )
+    )
+
+    fig.update_layout(
+        mapbox_style="open-street-map",
+        mapbox_zoom=11,
+        mapbox_center_lat=df["lat"].iloc[100],
+        mapbox_center_lon=df["lng"].iloc[100],
+        height=700,
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        legend_orientation="h",
+    )
+    return fig
+
 def trajectory_2_fig(df, dfa, dfr):
 
     # fig = px.scatter_mapbox()
@@ -77,11 +115,14 @@ def trajectory_2_fig(df, dfa, dfr):
 
     return fig
 
-#@app.callback(Output("map_rota", "figure")
-#              Input("model_button", "n_clicks"),
-#              State("rota_model", "value"))
-#def update_map_rota(n_clicks, rota):
-#    df = data
+
+@app.callback(Output("map_rota", "figure"),
+              Input("model_button", "n_clicks"),
+              State("rota_model", "value"))
+def update_map_rota(n_clicks, rota):
+    df = data.trajs_by_rota(rota)
+    fig = rota_2_fig(df)
+    return fig
 
 
 @app.callback(
