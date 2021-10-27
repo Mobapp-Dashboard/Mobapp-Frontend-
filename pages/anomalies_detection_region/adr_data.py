@@ -17,6 +17,9 @@ def traj_by_rota_traj(rota, traj):
     return df
 
 def get_eval(rota):
-    url = f"http://{BACKEND}/api/v1/dublin_model/evals/transformer/{rota}"
-    df = get_traj(url, sort_by="index")
-    return df
+    models = ["transformer", "riobusdata", "gmvsae"]
+    dfs = []
+    for m in models:
+        url = f"http://{BACKEND}/api/v1/dublin_model/evals/{m}/{rota}"
+        dfs.append(get_traj(url, sort_by="index"))
+    return pd.concat(dfs)

@@ -8,41 +8,22 @@ from styles.style import CONTENT_STYLE
 from . import adr_callbacks
 from .sidebar import sidebar
 
-map_adr = dbc.Row(
-    [
-        dbc.Col(dcc.Graph(id="map_ad"), md=12,),
-        #        dbc.Col(
-        #            dcc.Graph(id='map_ad_gt'), md=6,
-        #        ),
-    ]
-)
+map_region = dbc.Col(dcc.Graph(id="map_ad"), md=7)
+map_adr = dbc.Col(dcc.Graph(id="map_rota"), md=7)
+p_rec_plot = dbc.Col(dcc.Graph(id="p_rec"), md=2)
 
-p_rec_plot = dbc.Row([dbc.Col(dcc.Graph(id="p_rec"), md=10)])
-
-
-#content = html.Div(
-#    [
-#        sidebar,
-#        html.Div(
-#            [
-#                html.H3("Análise de Modelos"),
-#                map_adr,
-#                p_rec_plot,
-#            ],
-#            style=CONTENT_STYLE
-#        ),
-#    ]
-#)
 
 pre_content = html.Div(
     [
         html.H3("Análise de Modelos"),
-        map_adr,
-        p_rec_plot,
+        dbc.Row([
+            map_adr,
+            p_rec_plot
+        ])
     ])
 
 content = html.Div(
     dbc.Container(dbc.Row([
         dbc.Col(sidebar, md=2),
-        dbc.Col(pre_content, md="auto")
+        dbc.Col(pre_content, md=10)
     ]), fluid=True))

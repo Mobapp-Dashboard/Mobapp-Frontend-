@@ -14,7 +14,7 @@ layout = html.Div([
             id="loading-tabs",
             type="default",
             children=[
-                dcc.Tabs(id="front-tabs", value='tab-eda', children=[
+                dcc.Tabs(id="front-tabs", value='tab-one-model', children=[
                     dcc.Tab(label='EDA', value='tab-eda'),
                     dcc.Tab(label='Análise de Modelos', value='tab-one-model'),
                 ]),
