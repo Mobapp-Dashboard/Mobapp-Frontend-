@@ -14,7 +14,7 @@ from utils import request_functions as rf
 from . import adr_data as data
 
 
-def rota_2_fig(df):
+def _rota_2_fig(df):
     dfn = df[df["trajectory_id"] < 50]
     dfa = df[df["trajectory_id"] >= 50]
     fig = go.Figure(
@@ -50,6 +50,28 @@ def rota_2_fig(df):
         legend_orientation="h",
     )
     return fig
+
+def rota_2_fig(df):
+    print(df)
+    fig = px.scatter_mapbox(
+        df, lat="lat", lon="lng",
+        height=600, animation_frame="trajectory_id")
+
+    fig.update_layout(
+        mapbox_style="open-street-map",
+        mapbox_zoom=11,
+        mapbox_center_lat=df["lat"].iloc[100],
+        mapbox_center_lon=df["lng"].iloc[100],
+        height=700,
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        legend_orientation="h",
+    )
+    return fig
+#
+#    px.scatter(df, x="gdpPercap", y="lifeExp", animation_frame="year", animation_group="country",
+#           size="pop", color="continent", hover_name="country",
+#           log_x=True, size_max=55, range_x=[100,100000], range_y=[25,90])
+
 
 def trajectory_2_fig(df, dfa, dfr):
 
