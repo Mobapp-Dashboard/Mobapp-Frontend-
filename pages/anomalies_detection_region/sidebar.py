@@ -19,7 +19,7 @@ rotas_opt = [{'label': f"Rota: {rota}", "value": rota} for rota in rotas]
 trajs = list(range(100))
 trajs_opt = [{'label': f"Trajetória: {traj}", "value": traj} for traj in trajs]
 
-controls = dbc.FormGroup(
+controls = dbc.Nav(
     [
         html.P('Selecione rota e trajetória', style={
             'textAlign': 'center'
@@ -43,7 +43,8 @@ controls = dbc.FormGroup(
             color='primary',
             block=True
         )
-    ]
+    ],
+    vertical=True
 )
 
 sidebar = html.Div(
@@ -52,5 +53,5 @@ sidebar = html.Div(
         html.Hr(),
         controls
     ],
-    style=SIDEBAR_STYLE,
+    #style=SIDEBAR_STYLE,
 )

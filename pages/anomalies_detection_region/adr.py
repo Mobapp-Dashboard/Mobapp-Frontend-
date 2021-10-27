@@ -20,16 +20,29 @@ map_adr = dbc.Row(
 p_rec_plot = dbc.Row([dbc.Col(dcc.Graph(id="p_rec"), md=10)])
 
 
-content = html.Div(
+#content = html.Div(
+#    [
+#        sidebar,
+#        html.Div(
+#            [
+#                html.H3("Análise de Modelos"),
+#                map_adr,
+#                p_rec_plot,
+#            ],
+#            style=CONTENT_STYLE
+#        ),
+#    ]
+#)
+
+pre_content = html.Div(
     [
-        sidebar,
-        html.Div(
-            [
-                html.H3("Análise de Modelos"),
-                map_adr,
-                p_rec_plot,
-            ],
-            style=CONTENT_STYLE
-        ),
-    ]
-)
+        html.H3("Análise de Modelos"),
+        map_adr,
+        p_rec_plot,
+    ])
+
+content = html.Div(
+    dbc.Container(dbc.Row([
+        dbc.Col(sidebar, md=2),
+        dbc.Col(pre_content, md="auto")
+    ]), fluid=True))

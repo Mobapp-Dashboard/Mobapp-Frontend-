@@ -110,5 +110,5 @@ sidebar = html.Div(
         html.Hr(),
         control_painel,
     ],
-    style=SIDEBAR_STYLE,
+    #style=SIDEBAR_STYLE,
 )

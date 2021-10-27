@@ -43,14 +43,17 @@ stats_plots = dbc.Row(
     ])
 
 
-content = html.Div([
-    sidebar,
-    html.Div([
+pre_content = html.Div([
         map_eda,
-        stats_plots
-    ], style=CONTENT_STYLE),
-    dcc.Store(id="DataFrames")
-])
+        stats_plots,
+        dcc.Store(id="DataFrames")
+    ], style=CONTENT_STYLE)
+
+content = html.Div(
+    dbc.Container(dbc.Row([
+        dbc.Col(sidebar, md=2),
+        dbc.Col(pre_content, md=10)
+    ]), fluid=True))
 
 #
 #        dbc.Col(

@@ -6,9 +6,9 @@
 # the style arguments for the sidebar.
 SIDEBAR_STYLE = {
     'position': 'fixed',
-#    'top': 0,
+    'top': 0,
     'left': 0,
- #   'bottom': 0,
+    'bottom': 0,
     'width': '20%',
     'padding': '20px 10px',
     'background-color': '#f8f9fa'
@@ -16,7 +16,7 @@ SIDEBAR_STYLE = {
 
 # the style arguments for the main content page.
 CONTENT_STYLE = {
-    'margin-left': '25%',
+    'margin-left': '5%',
     'margin-right': '5%',
     'padding': '20px 10p'
 }
