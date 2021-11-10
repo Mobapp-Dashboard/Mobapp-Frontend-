@@ -1,4 +1,6 @@
 #!/usr/bin/env ipython
+
+#!/usr/bin/env ipython
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -11,43 +13,33 @@ from environment.settings import BACKEND
 #from . import sidebar_callbacks
 
 
-rotas = list(range(64))
-rotas_opt = [{'label': f"Route: {rota}", "value": rota} for rota in rotas]
-
-models = ["transformer", "iboat"]
-models_opt = [{'label': f"Model: {m}", "value": m} for m in models]
+rotas = list(range(5))
+rotas_opt = [{'label': f"Rota: {rota}", "value": rota} for rota in rotas]
 
 trajs = list(range(100))
 trajs_opt = [{'label': f"Trajetória: {traj}", "value": traj} for traj in trajs]
 
 controls = dbc.Nav(
     [
-        html.P('', style={
+        html.P('Selecione rota e trajetória', style={
             'textAlign': 'center'
         }),
         dbc.Card([dcc.Dropdown(
-            id='drop_model_name',
-            options=models_opt,
-            value=models[0]
-        )]),
-        html.Br(),
-        dbc.Card([dcc.Dropdown(
-            id='drop_rota',
+            id='rota_model',
             options=rotas_opt,
             value=rotas[0]
 
         )]),
         dbc.Card([dcc.Dropdown(
-            id='drop_traj',
+            id='traj_model',
             options=trajs_opt,
             value=trajs[50]
-
         )]),
         html.Br(),
         dbc.Button(
-            id='button_adr',
+            id='model_button',
             n_clicks=0,
-            children='Submit',
+            children='Modelo',
             color='primary',
             block=True
         )
@@ -57,7 +49,7 @@ controls = dbc.Nav(
 
 sidebar = html.Div(
     [
-        html.H2('Model and Route Selection', style=TEXT_STYLE),
+        html.H2('Selção de Trajetórias', style=TEXT_STYLE),
         html.Hr(),
         controls
     ],

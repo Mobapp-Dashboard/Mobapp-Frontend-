@@ -47,6 +47,7 @@ def get_traj(url, sort_by="instant"):
     def query_serialize_traj(url, sort_by="instant"):
         r = requests.get(url).json()
         df = pd.DataFrame(r)
+        print(df)
         df = df.sort_values(sort_by)
         if (sort_by == "instant"):
             df = feat_eng(df)

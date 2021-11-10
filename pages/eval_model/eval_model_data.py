@@ -10,21 +10,6 @@ from environment.settings import BACKEND
 from app import cache
 from utils.extract_data import get_traj
 
-def anom_by_model_route(model, route):
-    url = f"http://{BACKEND}/api/v1/dublin_model/predictions/{model}/{route}"
-    df = get_traj(url, sort_by="index")
-    print(df[(df["rota"]==0) & (df["trajectory_id"]==50)])
-    return df
-
-
-def extract_anon_idx(df, traj):
-    dft = df[df["trajectory_id"] == traj]
-    anoms = dft["anon_predictions"].unique()[0]
-    anoms = anoms.replace("{","[").replace("}","]")
-    anoms = eval(anoms)
-    print('!')
-    print(anoms)
-    return anoms
 
 def traj_by_rota_traj(rota, traj):
     url = f"http://{BACKEND}/api/v1/dublin_model/meta_trajectory/?trajectory_id={traj}&routes={rota}"
