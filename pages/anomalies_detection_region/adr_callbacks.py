@@ -50,8 +50,6 @@ def trajectory_2_fig(df, dfa, dfr):
             ),
         )
     )
-    print(df[["lat","lng"]].head(15))
-    print(dfa[["lat","lng"]].head(15))
     fig.add_trace(
         go.Scattermapbox(
             name="Anomalias",
@@ -99,8 +97,4 @@ def update_graph_model(n_clicks, rota, traj, model):
     #compare = list(map(lambda x, y: x != y, dft["predicted"], dft["input_token"]))
     dft.reset_index(inplace=True)
     compare = dft.index.isin(anon_idx)
-#    print(dft)
-#    print(dft[compare])
-#    return trajectory_2_fig(df, df[compare], df1)
-    print(dft[compare].index)
     return trajectory_2_fig(dft, dft[compare], df1)

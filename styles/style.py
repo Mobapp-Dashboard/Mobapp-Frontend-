@@ -1,8 +1,5 @@
 #!/usr/bin/env ipython
 
-
-
-
 # the style arguments for the sidebar.
 SIDEBAR_STYLE = {
     'position': 'fixed',
@@ -19,6 +16,13 @@ CONTENT_STYLE = {
     'margin-left': '5%',
     'margin-right': '5%',
     'padding': '20px 10p'
+}
+
+TOP_TITLE_STYLE = {
+    "textAlign": "center",
+    "margin-top": "1%",
+    "margin-down": "1%",
+    "fontSize": 40
 }
 
 TEXT_STYLE = {

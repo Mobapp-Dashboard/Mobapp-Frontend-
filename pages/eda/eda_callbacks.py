@@ -63,16 +63,16 @@ def histogram_fig(df, cols):
 
 @app.callback(
     [Output('mapL', 'figure'),
-     Output('cum_dist_time', 'figure'),
-     Output("radio_turno", "value"),
-     Output("tabela-sumario", "children")],
-    [Input("submit_button", "n_clicks"),
-     Input("reset_button", "n_clicks"),
+     Output('cum-dist-time', 'figure'),
+     Output("radio-shift", "value"),
+     Output("summary-table", "children")],
+    [Input("submit-button", "n_clicks"),
+     Input("reset-button", "n_clicks"),
      Input("DataFrames", "data"),
-     Input("radio_turno", "value"),
-     Input("radio_cor", "value"),
+     Input("radio-shift", "value"),
+     Input("radio-color", "value"),
      Input('mapL', 'clickData'),
-     Input('cum_dist_time', 'clickData')]
+     Input('cum-dist-time', 'clickData')]
 )
 def update_graph_4x(n_clicks, r_clicks, json_df, turno, cor, click_map, click_scatter):
     ctx = dash.callback_context
@@ -106,8 +106,8 @@ def update_graph_4x(n_clicks, r_clicks, json_df, turno, cor, click_map, click_sc
     dfs.iloc[1:] = dfs.iloc[1:].applymap("{:,.2f}".format)
     dfs = dfs.reset_index()
     dfs.columns = [
-        "Medida", "Velocidade (km/h)", "Aceleração(m/s^2)",
-        "Distância entre pontos (m)", "Tempo entre pontos (s)"
+        "", "Velocity(km/h)", "Acceleration(m/s^2)",
+        "Distance between points(m)", "Time between points(s)"
     ]
 
     table = dbc.Table.from_dataframe(dfs, striped=True, bordered=True, hover=True)

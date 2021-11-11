@@ -31,13 +31,12 @@ def get_from_store(json_df):
 
 @app.callback(
     Output("DataFrames", "data"),
-    Input("submit_button", "n_clicks"),
-    [State('radio_journey_1', 'value'),
-     State('radio_traj_1', 'value'),
-     State("radio_grao", "value"),
+    Input("submit-button", "n_clicks"),
+    [State('dropdown-journey', 'value'),
      State('date-range', 'start_date'),
      State('date-range', 'end_date')]
 )
-def store_dataframe(n_clicks, journey, traj, grao, start_date, end_date):
+def store_dataframe(n_clicks, journey, start_date, end_date):
+    print(start_date)
     df = traj_by_journey_date(journey, start_date, end_date)
     return df.to_json(date_format='iso', orient='split')

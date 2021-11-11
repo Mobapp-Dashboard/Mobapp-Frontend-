@@ -52,7 +52,6 @@ def _rota_2_fig(df):
     return fig
 
 def rota_2_fig(df):
-    print(df)
     fig = px.scatter_mapbox(
         df, lat="lat", lon="lng",
         height=600, animation_frame="trajectory_id")
@@ -138,9 +137,9 @@ def trajectory_2_fig(df, dfa, dfr):
     return fig
 
 
-@app.callback(Output("map_rota", "figure"),
-              Input("model_button", "n_clicks"),
-              State("rota_model", "value"))
+@app.callback(Output("map-route", "figure"),
+              Input("model-button", "n_clicks"),
+              State("rota-model", "value"))
 def update_map_rota(n_clicks, rota):
     df = data.trajs_by_rota(rota)
     fig = rota_2_fig(df)
@@ -148,9 +147,10 @@ def update_map_rota(n_clicks, rota):
 
 
 @app.callback(
-    Output("map_ad", "figure"),
-    Input("model_button", "n_clicks"),
-    [State("rota_model", "value"), State("traj_model", "value")],
+    Output("map-ad", "figure"),
+    Input("button-model", "n_clicks"),
+    [State("route-model", "value"),
+     State("traj-model", "value")],
 )
 def update_graph_model(n_clicks, rota, traj):
     df = data.traj_by_rota_traj(rota, traj)
@@ -205,12 +205,11 @@ def df_to_pr_curve(dfs):
     return fig
 
 @app.callback(
-    Output("p_rec", "figure"),
-    Input("model_button", "n_clicks"),
-    [State("rota_model", "value")]
+    Output("p-rec", "figure"),
+    Input("button-model", "n_clicks"),
+    [State("route-model", "value")]
 )
 def update_pr_curve(n_clicks, rota):
     df = data.get_eval(rota)
-    #print(df)
     fig = df_to_pr_curve(df)
     return fig

@@ -7,24 +7,25 @@ from dash.dependencies import Input, Output
 from pages.anomalies_detection_region import adr
 from pages.eda import eda
 from pages.eval_model import eval_model
+from styles.style import TOP_TITLE_STYLE
 import time
 
+START_PAGE = "tab-eda"
+
 layout = html.Div([
-    html.H1('Dashboard: Urban Mobility'),
-        dcc.Loading(
-            id="loading-tabs",
-            type="default",
-            children=[
-                dcc.Tabs(id="front-tabs", value='tab-pred-anon', children=[
-                    dcc.Tab(label='EDA', value='tab-eda'),
-                    dcc.Tab(label='Model Evaluation', value='tab-eval-model'),
-                    dcc.Tab(label='Anomalies Detection(Points/Region)', value='tab-pred-anon'),
-                ]),
-                html.Div(id='front-tabs-content')
-            ]
-        ),
-
-
+    html.H1('Dashboard: Urban Mobility', style=TOP_TITLE_STYLE),
+    dcc.Loading(
+        id="loading-tabs",
+        type="default",
+        children=[
+            dcc.Tabs(id="front-tabs", value=START_PAGE, children=[
+                dcc.Tab(label='EDA', value='tab-eda'),
+                dcc.Tab(label='Model Evaluation', value='tab-eval-model'),
+                dcc.Tab(label='Anomalies Detection(Points/Region)', value='tab-pred-anon'),
+            ]),
+            html.Div(id='front-tabs-content')
+        ]
+    ),
 ])
 
 

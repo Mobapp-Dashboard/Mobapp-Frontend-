@@ -17,7 +17,7 @@ def line_2_jouney_options(df, line):
 
 def line_jouney_2_traj_options(df, line, journey):
     trajs = df[(df["line_id"] == line) & (df["journey_id"] == journey)].trajectory_id.unique()
-    print(trajs)
+
     trajs.sort()
     return ([{'label': f"Trajetória {t}", "value": t} for t in trajs], trajs[0])
 

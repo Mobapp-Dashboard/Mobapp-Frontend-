@@ -14,30 +14,30 @@ from environment.settings import BACKEND
 
 
 rotas = list(range(5))
-rotas_opt = [{'label': f"Rota: {rota}", "value": rota} for rota in rotas]
+rotas_opt = [{'label': f"Route: {rota}", "value": rota} for rota in rotas]
 
 trajs = list(range(100))
-trajs_opt = [{'label': f"Trajetória: {traj}", "value": traj} for traj in trajs]
+trajs_opt = [{'label': f"Trajectory: {traj}", "value": traj} for traj in trajs]
 
 controls = dbc.Nav(
     [
-        html.P('Selecione rota e trajetória', style={
+        html.P('Select route and trajectory', style={
             'textAlign': 'center'
         }),
         dbc.Card([dcc.Dropdown(
-            id='rota_model',
+            id='route-model',
             options=rotas_opt,
             value=rotas[0]
 
         )]),
         dbc.Card([dcc.Dropdown(
-            id='traj_model',
+            id='traj-model',
             options=trajs_opt,
             value=trajs[50]
         )]),
         html.Br(),
         dbc.Button(
-            id='model_button',
+            id='button-model',
             n_clicks=0,
             children='Modelo',
             color='primary',
@@ -49,7 +49,7 @@ controls = dbc.Nav(
 
 sidebar = html.Div(
     [
-        html.H2('Selção de Trajetórias', style=TEXT_STYLE),
+        html.H2('Trajectories Selection', style=TEXT_STYLE),
         html.Hr(),
         controls
     ],
