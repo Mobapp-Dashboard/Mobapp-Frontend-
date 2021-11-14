@@ -86,7 +86,7 @@ def histogram_fig(df, cols):
 def update_graph_4x(n_clicks, r_clicks, json_df, turno, cor, click_map, click_scatter):
     ctx = dash.callback_context
 
-    print(ctx.triggered[0]["prop_id"])
+    # print(ctx.triggered[0]["prop_id"])
     if ctx.triggered[0]["prop_id"].split(".")[0] == "reset-button":
         click_map = None
         click_scatter = None
