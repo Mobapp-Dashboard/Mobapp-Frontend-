@@ -7,11 +7,12 @@ import dash_html_components as html
 from app import app
 from dash.dependencies import Input, Output
 from pages.anomalies_detection_region import adr
+from pages.compare_anomalies_detection_region import c_adr
 from pages.eda import eda
 from pages.eval_model import eval_model
 from styles.style import TOP_TITLE_STYLE
 
-START_PAGE = "tab-eda" # pred-anom"
+START_PAGE = "tab-comp-pred-anom"
 
 layout = html.Div(
     [
@@ -30,6 +31,10 @@ layout = html.Div(
                             label="Anomalies Detection(Points/Region)",
                             value="tab-pred-anom",
                         ),
+                        dcc.Tab(
+                            label="Compare Anomalies Detection(Points/Region)",
+                            value="tab-comp-pred-anom",
+                        ),
                     ],
                 ),
                 html.Div(id="front-tabs-content"),
@@ -47,6 +52,8 @@ def render_content(tab):
         return eval_model.content
     elif tab == "tab-pred-anom":
         return adr.page
+    elif tab == "tab-comp-pred-anom":
+        return c_adr.page
 
 
 @app.callback(Output("loading-tabs", "children"), Input("loading-tabs", "children"))
