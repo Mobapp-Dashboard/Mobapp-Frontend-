@@ -11,7 +11,7 @@ from pages.eda import eda
 from pages.eval_model import eval_model
 from styles.style import TOP_TITLE_STYLE
 
-START_PAGE = "tab-pred-anom"
+START_PAGE = "tab-eda" # pred-anom"
 
 layout = html.Div(
     [
