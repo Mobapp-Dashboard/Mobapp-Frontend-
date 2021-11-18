@@ -17,7 +17,7 @@ def anom_by_model_route(model, route):
 
 def extract_anon_idx(df, traj):
     dft = df[df["trajectory_id"] == traj]
-    anoms = dft["anon_predictions"].unique()[0]
+    anoms = dft["anom_predictions"].unique()[0]
     anoms = anoms.replace("{", "[").replace("}", "]")
     anoms = eval(anoms)
     return anoms
