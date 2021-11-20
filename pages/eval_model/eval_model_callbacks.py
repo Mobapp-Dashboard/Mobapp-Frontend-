@@ -138,9 +138,10 @@ def trajectory_2_fig(df, dfa, dfr):
 
 
 @app.callback(Output("map-route", "figure"),
-              Input("model-button", "n_clicks"),
-              State("rota-model", "value"))
+              Input("button-model", "n_clicks"),
+              State("route-model", "value"))
 def update_map_rota(n_clicks, rota):
+    print("oi")
     df = data.trajs_by_rota(rota)
     fig = rota_2_fig(df)
     return fig
@@ -175,10 +176,11 @@ def df_to_pr_curve(dfs):
     models = ["transformer", "riobusdata", "gmvsae"]
 
     for m in models:
-        df = dfs[dfs["filename"] == m]
+        df = dfs[dfs["model"] == m]
         precision = df["precision"].values
         recall = df["recall"].values
-        auc = df["auc"].unique()[0]
+        #auc = df["auc"].unique()[0]
+        auc = 666
 
         fig.add_trace(go.Scatter(
             x=recall, y=precision,
