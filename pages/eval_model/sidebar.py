@@ -13,7 +13,7 @@ from environment.settings import BACKEND
 #from . import sidebar_callbacks
 
 
-rotas = list(range(5))
+rotas = list(range(64))
 rotas_opt = [{'label': f"Route: {rota}", "value": rota} for rota in rotas]
 
 trajs = list(range(100))

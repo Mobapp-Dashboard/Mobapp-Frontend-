@@ -28,4 +28,5 @@ def get_eval(rota):
     for m in models:
         url = f"http://{BACKEND}/api/v1/dublin_model/evals/{m}/{rota}"
         dfs.append(get_traj(url, sort_by="index"))
-    return pd.concat(dfs)
+    df = pd.concat(dfs)
+    return df
