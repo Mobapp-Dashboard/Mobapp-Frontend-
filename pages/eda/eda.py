@@ -41,7 +41,7 @@ controls = dbc.FormGroup(
             value=0,
         ),
         html.Hr(),
-        dbc.Card([dcc.Dropdown(id="dropdown-journey", options=[], value="00010001")]),
+        dbc.Card([dcc.Dropdown(id="dropdown-journey", options=[], value="10001")]),
         html.Hr(),
         dbc.Button(
             id="submit-button",
@@ -146,8 +146,8 @@ content = html.Div(
             [
                 dbc.Col(sidebar, md=2),
                 dbc.Col(pre_content, md=9),
-#                dbc.Col(pre_content, md=5),
-#                dbc.Col(sidebar, md=1),
+                #                dbc.Col(pre_content, md=5),
+                #                dbc.Col(sidebar, md=1),
             ]
         ),
         fluid=True,
