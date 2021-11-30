@@ -36,7 +36,7 @@ def trajs_by_rota(rota):
 
 
 def get_eval(rota):
-    models = ["transformer", "riobusdata", "gmvsae"]
+    models = ["riobusdata", "gmvsae", "transformer", "iboat"]
     dfs = []
     for m in models:
         url = f"http://{BACKEND}/api/v1/dublin_model/evals/{m}/{rota}"

@@ -74,6 +74,48 @@ def trajectory_2_fig(df, dfa, dfr):
 
     return fig
 
+def df_to_pr_curve(dfs):
+    fig = go.Figure()
+
+    fig.add_shape(
+        type='line', line=dict(dash='dash'),
+        x0=0, x1=1, y0=1, y1=0
+    )
+    models = ["riobusdata", "gmvsae", "iboat", "transformer"]
+
+    for m in models:
+        df = dfs[dfs["model"] == m]
+        precision = df["precision"].values
+        recall = df["recall"].values
+        #auc = df["auc"].unique()[0]
+        auc = 666
+
+        fig.add_trace(go.Scatter(
+            x=recall, y=precision,
+            name= f"{m}",
+            #(AUC={auc:.4f})
+            mode="lines+markers",
+            text = ['Threshold {}'.format(i) for i in df["threshold"]],
+        ))
+    fig.update_layout(
+        xaxis_title='Recall',
+        yaxis_title='Precision',
+        yaxis=dict(scaleanchor="x", scaleratio=1),
+        xaxis=dict(constrain='domain'),
+        width=700, height=500
+    )
+        #fig = px.area(
+        #    x=recall, y=precision,
+        #    title=f'Precision-Recall Curve (AUC={auc:.4f})',
+        #    labels=dict(x='Recall', y='Precision'),
+        #    width=700, height=500
+                   #)
+
+
+    #fig.update_yaxes(scaleanchor="x", scaleratio=1)
+    #fig.update_xaxes(constrain='domain')
+    return fig
+
 
 
 @app.callback(
@@ -113,3 +155,15 @@ def update_graph_model(n_clicks, model, rota, traj):
     dft.reset_index(inplace=True)
     compare = dft.index.isin(anon_idx)
     return trajectory_2_fig(dft, dft[compare], df1)
+
+@app.callback(
+    Output("pr-curve", "figure"),
+    Input("button_cadr", "n_clicks"),
+    [State("drop_rota", "value"),
+     State("drop_traj", "value"),
+     ]
+)
+def update_pr_curve(n_clicks, rota, traj):
+    df = data.get_eval(rota)
+    fig = df_to_pr_curve(df)
+    return fig

@@ -26,11 +26,11 @@ layout = html.Div(
                     value=START_PAGE,
                     children=[
                         dcc.Tab(label="EDA", value="tab-eda"),
-                        dcc.Tab(label="Model Evaluation", value="tab-eval-model"),
-                        dcc.Tab(
-                            label="Anomalies Detection(Points/Region)",
-                            value="tab-pred-anom",
-                        ),
+                        #dcc.Tab(label="Model Evaluation", value="tab-eval-model"),
+                        #dcc.Tab(
+                        #    label="Anomalies Detection(Points/Region)",
+                        #    value="tab-pred-anom",
+                        #),
                         dcc.Tab(
                             label="Compare Anomalies Detection(Points/Region)",
                             value="tab-comp-pred-anom",

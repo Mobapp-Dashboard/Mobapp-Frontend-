@@ -20,19 +20,24 @@ maps_cadr = dbc.Row(children=[
             id='drop_model_name_l',
             options=models_opt,
             value=models[0]),
-        dcc.Graph(id="map_cadr_l")
-        ], md=6),
+        dcc.Graph(id="map_cadr_l"),
+        ], md=4),
+    dbc.Col(dcc.Graph(id="pr-curve"), md=4),
     dbc.Col(children=[
         dcc.Dropdown(
             id='drop_model_name_r',
             options=models_opt,
             value=models[1]),
-        dcc.Graph(id="map_cadr_r")
-        ], md=6)
+        dcc.Graph(id="map_cadr_r"),
+        ], md=4),
+
 ])
 
 
+
+
 content = html.Div([
+    html.Br(),
     maps_cadr,
 #    stats_plots,
 #    dcc.Store(id="DataFrames")
