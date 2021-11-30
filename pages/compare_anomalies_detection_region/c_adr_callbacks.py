@@ -102,7 +102,8 @@ def df_to_pr_curve(dfs):
         yaxis_title='Precision',
         yaxis=dict(scaleanchor="x", scaleratio=1),
         xaxis=dict(constrain='domain'),
-        width=700, height=500
+        width=600, height=700,
+        legend_orientation="h",
     )
         #fig = px.area(
         #    x=recall, y=precision,
