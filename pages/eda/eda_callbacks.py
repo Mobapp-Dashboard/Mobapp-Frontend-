@@ -103,7 +103,7 @@ def update_graph_4x(n_clicks, r_clicks, json_df, turno, cor, click_map, click_sc
         df = df[df["trajectory_id"] == traj]
 
     if turno != 0:
-        turno_col = "day_moment"
+        turno_col = "turn"
         df = df[df[turno_col] == turno_dict[turno]]
 
     map_fig = trajectories_to_fig(df, cor=cor)
