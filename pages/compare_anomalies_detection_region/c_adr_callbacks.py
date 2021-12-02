@@ -20,7 +20,7 @@ def trajectory_2_fig(df, dfa, dfr):
 
     fig = go.Figure(
         go.Scattermapbox(
-            name="Trajetória Realizada",
+            name="Real Trajectory",
             lat=df["lat"],
             lon=df["lng"],
             mode="markers+lines",
@@ -29,7 +29,7 @@ def trajectory_2_fig(df, dfa, dfr):
     )
     fig.add_trace(
         go.Scattermapbox(
-            name="Ponto Inicial",
+            name="Initial Point",
             lat=[df["lat"].iloc[0]],
             lon=[df["lng"].iloc[0]],
             mode="markers",
@@ -40,7 +40,7 @@ def trajectory_2_fig(df, dfa, dfr):
     )
     fig.add_trace(
         go.Scattermapbox(
-            name="Trajeto Esperado",
+            name="Expected Trajectory",
             lat=dfr["lat"],
             lon=dfr["lng"],
             mode="markers+lines",
@@ -52,7 +52,7 @@ def trajectory_2_fig(df, dfa, dfr):
     )
     fig.add_trace(
         go.Scattermapbox(
-            name="Anomalias",
+            name="Detected Anomalies",
             lat=dfa["lat"],
             lon=dfa["lng"],
             mode="markers+lines",
@@ -64,10 +64,10 @@ def trajectory_2_fig(df, dfa, dfr):
 
     fig.update_layout(
         mapbox_style="open-street-map",
-        mapbox_zoom=11,
+        mapbox_zoom=9.8,
         mapbox_center_lat=df["lat"].iloc[100],
         mapbox_center_lon=df["lng"].iloc[100],
-        height=700,
+        #height=700,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend_orientation="h",
     )
@@ -103,7 +103,7 @@ def df_to_pr_curve(dfs):
         yaxis=dict(scaleanchor="x", scaleratio=1),
         xaxis=dict(constrain='domain'),
         #width=600, height=700,
-        legend_orientation="h",
+        legend_orientation="v",
     )
         #fig = px.area(
         #    x=recall, y=precision,

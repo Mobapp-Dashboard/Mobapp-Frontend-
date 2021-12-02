@@ -61,7 +61,10 @@ def histogram_fig(df, cols):
     for c in cols:
         fig.add_trace(go.Histogram(x=df[c]))
     # Overlay both histograms
-    fig.update_layout(barmode="overlay")
+    fig.update_layout(
+        xaxis_title='Cumulative Distance (meters)',
+        yaxis_title='Cumulative Time (minutes)',
+        barmode="overlay")
     fig.update_traces(opacity=0.75)
     return fig
 

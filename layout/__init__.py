@@ -32,7 +32,7 @@ layout = html.Div(
                         #    value="tab-pred-anom",
                         #),
                         dcc.Tab(
-                            label="Compare Anomalies Detection(Points/Region)",
+                            label="Compare Anomaly Detection Models",
                             value="tab-comp-pred-anom",
                         ),
                     ],
