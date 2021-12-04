@@ -27,13 +27,13 @@ controls = dbc.Nav(
         dbc.Card([dcc.Dropdown(
             id='route-model',
             options=rotas_opt,
-            value=rotas[0]
+            value=rotas[35]
 
         )]),
         dbc.Card([dcc.Dropdown(
             id='traj-model',
             options=trajs_opt,
-            value=trajs[50]
+            value=trajs[25]
         )]),
         html.Br(),
         dbc.Button(
