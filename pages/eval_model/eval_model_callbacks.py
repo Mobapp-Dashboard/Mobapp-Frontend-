@@ -63,7 +63,7 @@ def rota_2_fig(df):
         mapbox_zoom=11,
         mapbox_center_lat=df["lat"].iloc[100],
         mapbox_center_lon=df["lng"].iloc[100],
-#        height=700,
+        height=600,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend_orientation="h",
     )
@@ -169,10 +169,6 @@ def update_graph_model(rota, traj):
 def df_to_pr_curve(dfs):
     fig = go.Figure()
 
-    fig.add_shape(
-        type='line', line=dict(dash='dash'),
-        x0=0, x1=1, y0=1, y1=0
-    )
     models = ["riobusdata", "gmvsae", "iboat", "transformer"]
 
     for m in models:
@@ -188,11 +184,17 @@ def df_to_pr_curve(dfs):
             mode="lines+markers",
             text = ['Threshold {}'.format(i) for i in df["threshold"]],
         ))
+    fig.add_shape(
+        type='line', line=dict(dash='dash'),
+        x0=0, x1=1, y0=1, y1=0
+    )
     fig.update_layout(
         xaxis_title='Recall',
         yaxis_title='Precision',
         yaxis=dict(scaleanchor="x", scaleratio=1),
         xaxis=dict(constrain='domain'),
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+        legend_orientation="h"
         #width=700, height=500
     )
         #fig = px.area(

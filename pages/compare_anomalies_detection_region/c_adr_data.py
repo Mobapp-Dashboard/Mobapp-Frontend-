@@ -9,6 +9,11 @@ from environment.settings import BACKEND
 from utils.extract_data import get_traj
 
 
+def score_by_route(route):
+    url = f"http://{BACKEND}/api/v1/dublin_model/scores/{route}"
+    df = get_traj(url, sort_by=None)
+    return df
+
 def anom_by_model_route(model, route):
     url = f"http://{BACKEND}/api/v1/dublin_model/predictions/{model}/{route}"
     df = get_traj(url, sort_by="index")

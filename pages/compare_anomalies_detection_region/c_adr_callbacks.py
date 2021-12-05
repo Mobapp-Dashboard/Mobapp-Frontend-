@@ -55,7 +55,7 @@ def trajectory_2_fig(df, dfa, dfr):
             name="Detected Anomalies",
             lat=dfa["lat"],
             lon=dfa["lng"],
-            mode="markers+lines",
+            mode="markers",
             marker=go.scattermapbox.Marker(
                 size=11, color="rgb(175, 0, 42)", opacity=0.5
             ),
@@ -64,90 +64,68 @@ def trajectory_2_fig(df, dfa, dfr):
 
     fig.update_layout(
         mapbox_style="open-street-map",
-        mapbox_zoom=9.8,
+        mapbox_zoom=11,
         mapbox_center_lat=df["lat"].iloc[100],
         mapbox_center_lon=df["lng"].iloc[100],
-        #height=700,
+        height=600,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend_orientation="h",
     )
 
     return fig
 
-def df_to_pr_curve(dfs):
-    fig = go.Figure()
-
-    fig.add_shape(
-        type='line', line=dict(dash='dash'),
-        x0=0, x1=1, y0=1, y1=0
-    )
-    models = ["riobusdata", "gmvsae", "iboat", "transformer"]
-
-    for m in models:
-        df = dfs[dfs["model"] == m]
-        precision = df["precision"].values
-        recall = df["recall"].values
-        #auc = df["auc"].unique()[0]
-        auc = 666
-
-        fig.add_trace(go.Scatter(
-            x=recall, y=precision,
-            name= f"{m}",
-            #(AUC={auc:.4f})
-            mode="lines+markers",
-            text = ['Threshold {}'.format(i) for i in df["threshold"]],
-        ))
-    fig.update_layout(
-        xaxis_title='Recall',
-        yaxis_title='Precision',
-        yaxis=dict(scaleanchor="x", scaleratio=1),
-        xaxis=dict(constrain='domain'),
-        #width=600, height=700,
-        legend_orientation="v",
-    )
-        #fig = px.area(
-        #    x=recall, y=precision,
-        #    title=f'Precision-Recall Curve (AUC={auc:.4f})',
-        #    labels=dict(x='Recall', y='Precision'),
-        #    width=700, height=500
-                   #)
 
 
-    #fig.update_yaxes(scaleanchor="x", scaleratio=1)
-    #fig.update_xaxes(constrain='domain')
-    return fig
-
-
+##########
+##########
+##########
 
 @app.callback(
-    Output("map_cadr_l", "figure"),
-    [Input("button_cadr", "n_clicks"),
-     Input("drop_model_name_l", "value")],
-    [State("drop_rota", "value"),
-     State("drop_traj", "value")],
+    Output("list-traj-scores", "children"),
+    Input("route-drop-av", "value")
 )
-def update_graph_model_l(n_clicks, model, rota, traj):
-    return update_graph_model(n_clicks, model, rota, traj)
+def top5_anomaly_scores(route):
+    df = data.score_by_route(route)
+    scores = df[df["model"] == "transformer"][["trajectory_id", "scores"]]
+    scores = scores.sort_values("scores", ascending=True).iloc[:5]
+    list_items = [dbc.ListGroupItem("Trajectory (SCORE)")]
+    for n, ts in enumerate(scores.values):
+        traj = ts[0]
+        score = ts[1]
+        list_items.append(
+            dbc.ListGroupItem(
+                f"Trajectory {traj} ({score})",
+                id=f"item{n}", n_clicks=0, action=True,
+                color="info"
+            ))
+    return list_items
 
 @app.callback(
-    Output("map_cadr_r", "figure"),
-    [Input("button_cadr", "n_clicks"),
-     Input("drop_model_name_r", "value")],
-    [State("drop_rota", "value"),
-     State("drop_traj", "value"),
-     ],
+    Output("map_adr", "figure"),
+    [
+        Input("item0", "n_clicks"),
+        Input("item1", "n_clicks"),
+        Input("item2", "n_clicks"),
+        Input("item3", "n_clicks"),
+        Input("item4", "n_clicks"),
+        Input("route-drop-av", "value")
+    ]
 )
-def update_graph_model_r(n_clicks, model, rota, traj):
-    return update_graph_model(n_clicks, model, rota, traj)
+def generate_map_from_score_list(i1, i2, i3, i4, i5, route):
+    ctx = dash.callback_context
+    df = data.score_by_route(route)
+    scores = df[df["model"] == "transformer"][["trajectory_id", "scores"]]
+    scores = scores.sort_values("scores", ascending=True).iloc[:5]
+    idx = int(ctx.triggered[0]["prop_id"].split(".")[0][-1])
+    traj = int(scores.iloc[idx]["trajectory_id"])
 
 
-def update_graph_model(n_clicks, model, rota, traj):
-    dfa = data.anom_by_model_route(model, rota)
+    dfa = data.anom_by_model_route("transformer", route)
 
-    dft = data.traj_by_rota_traj(rota, traj)
+    dft = data.traj_by_rota_traj(route, traj)
 
     if traj >= 50:
-        df1 = data.traj_by_rota_traj(rota, traj % 50)
+        df1 = data.traj_by_rota_traj(route, traj % 50)
     else:
         df1 = dft
 
@@ -157,14 +135,16 @@ def update_graph_model(n_clicks, model, rota, traj):
     compare = dft.index.isin(anon_idx)
     return trajectory_2_fig(dft, dft[compare], df1)
 
-@app.callback(
-    Output("pr-curve", "figure"),
-    Input("button_cadr", "n_clicks"),
-    [State("drop_rota", "value"),
-     State("drop_traj", "value"),
-     ]
-)
-def update_pr_curve(n_clicks, rota, traj):
-    df = data.get_eval(rota)
-    fig = df_to_pr_curve(df)
-    return fig
+
+
+
+
+
+    # print(ctx.triggered[0]["prop_id"])
+#    if ctx.triggered[0]["prop_id"].split(".")[0] == "item1":
+#    return ctx.triggered[0]["prop_id"].split(".")[0][-1]
+
+
+
+
+

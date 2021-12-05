@@ -13,7 +13,7 @@ from pages.eda import eda
 from pages.eval_model import eval_model as me
 from styles.style import TOP_TITLE_STYLE
 
-START_PAGE = "tab-me"
+START_PAGE = "tab-av"
 
 layout = html.Div(
     [
