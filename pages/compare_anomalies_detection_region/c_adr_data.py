@@ -10,12 +10,13 @@ from utils.extract_data import get_traj
 
 
 def score_by_route(route):
-    url = f"http://{BACKEND}/api/v1/dublin_model/scores/{route}"
+    url = f"http://{BACKEND}/api/v1/anomaly_detection_models/dublin/scores/{route}"
     df = get_traj(url, sort_by=None)
     return df
 
+
 def anom_by_model_route(model, route):
-    url = f"http://{BACKEND}/api/v1/dublin_model/predictions/{model}/{route}"
+    url = f"http://{BACKEND}/api/v1/anomaly_detection_models/dublin/predictions/{model}/{route}"
     df = get_traj(url, sort_by="index")
     return df
 
@@ -29,13 +30,13 @@ def extract_anon_idx(df, traj):
 
 
 def traj_by_rota_traj(rota, traj):
-    url = f"http://{BACKEND}/api/v1/dublin_model/model_points/?trajectory_id={traj}&rota={rota}"
+    url = f"http://{BACKEND}/api/v1/anomaly_detection_models/dublin/model_points/?trajectory_id={traj}&rota={rota}"
     df = get_traj(url, sort_by="index")
     return df
 
 
 def trajs_by_rota(rota):
-    url = f"http://{BACKEND}/api/v1/dublin_model/model_points/?rota={rota}"
+    url = f"http://{BACKEND}/api/v1/anomaly_detection_models/dublin/model_points/?rota={rota}"
     df = get_traj(url, sort_by="index")
     return df
 
@@ -44,6 +45,8 @@ def get_eval(rota):
     models = ["riobusdata", "gmvsae", "transformer", "iboat"]
     dfs = []
     for m in models:
-        url = f"http://{BACKEND}/api/v1/dublin_model/evals/{m}/{rota}"
+        url = (
+            f"http://{BACKEND}/api/v1/anomaly_detection_models/dublin/evals/{m}/{rota}"
+        )
         dfs.append(get_traj(url, sort_by="index"))
     return pd.concat(dfs)
