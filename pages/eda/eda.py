@@ -141,6 +141,8 @@ pre_content = html.Div(
 )
 
 content = html.Div(
+    html.H2('Exploratory Data Analysis', style=TEXT_STYLE),
+    html.Hr(),
     dbc.Container(
         dbc.Row(
             [
