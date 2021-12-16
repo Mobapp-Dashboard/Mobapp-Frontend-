@@ -122,7 +122,7 @@ traj_section = html.Div(
 # Page Layout #
 ###############
 
-page = html.Div(
+page = html.Div([
     html.H2('Model Evaluation', style=TEXT_STYLE),
     html.Hr(),
     dbc.Container(
@@ -134,5 +134,5 @@ page = html.Div(
             ]
         ),
         fluid=True,
-    )
+    )]
 )
