@@ -140,7 +140,7 @@ pre_content = html.Div(
     [map_eda, stats_plots, dcc.Store(id="DataFrames")], style=CONTENT_STYLE
 )
 
-content = html.Div(
+content = html.Div([
     html.H2('Exploratory Data Analysis', style=TEXT_STYLE),
     html.Hr(),
     dbc.Container(
@@ -153,5 +153,5 @@ content = html.Div(
             ]
         ),
         fluid=True,
-    )
+    )]
 )
