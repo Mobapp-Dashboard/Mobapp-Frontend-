@@ -3,7 +3,7 @@
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-from styles.style import CONTENT_STYLE
+from styles.style import CONTENT_STYLE, TEXT_STYLE
 
 from . import eval_model_callbacks
 from .sidebar import sidebar
