@@ -123,6 +123,8 @@ traj_section = html.Div(
 ###############
 
 page = html.Div(
+    html.H2('Model Evaluation', style=TEXT_STYLE),
+    html.Hr(),
     dbc.Container(
         dbc.Row(
             [
