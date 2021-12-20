@@ -139,6 +139,10 @@ def scatter_dist_time(df, cor="speed"):
         color=cor,
         color_continuous_scale="Turbo",
     )
+    fig.update_layout(
+        xaxis_title='Cumulative Distance (meters)',
+        yaxis_title='Cumulative Time (minutes)',
+    )
     return fig
 
 
