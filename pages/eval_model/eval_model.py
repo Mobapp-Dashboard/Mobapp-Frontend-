@@ -54,7 +54,7 @@ drop_routes = dcc.Dropdown(
 drop_trajs = dcc.Dropdown(
     id='traj-model',
     options=trajs_opt,
-    value=trajs[65]
+    value=trajs[0]
 )
 
 

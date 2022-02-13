@@ -27,13 +27,19 @@ controls = dbc.Nav(
         dbc.Card([dcc.Dropdown(
             id='route-drop-av',
             options=rotas_opt,
-            value=rotas[0]
+            value=rotas[19]
 
         )]),
+        # Maiores Scores
         html.Hr(),
         html.P("Click on trajectory's box to see the anomalies:"),
         dbc.ListGroup(id="list-traj-scores"),
-        html.P(id="traj-score-box")
+        html.P(id="traj-score-box"),
+        # Menores Scores
+        html.Hr(),
+        html.P("Click on trajectory's box to see the anomalies:"),
+        dbc.ListGroup(id="list-traj-scores-down"),
+        html.P(id="traj-score-box-down")
     ],
     vertical=True
 )

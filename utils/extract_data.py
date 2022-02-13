@@ -19,8 +19,9 @@ def get_metatraj(journey, start_date, end_date):
 
 def get_journey_by_date(start_date, end_date):
     @cache.memoize()
-    def query_and_serialize_journeys(start_date, end_date):
+    def query_and_serialize_journeys(start_date, date_end):
         url = f"http://{BACKEND}/api/v1/trajectory_metadata/dublin/journeys_by_date/?start_date={start_date}&end_date={end_date}"
+        print(url)
         r = requests.get(url).json()
         df = pd.DataFrame(r)
         return df.to_json()

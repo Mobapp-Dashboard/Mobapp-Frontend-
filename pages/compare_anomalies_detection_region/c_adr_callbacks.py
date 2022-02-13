@@ -10,7 +10,7 @@ from dash.dependencies import Input, Output, State
 from . import c_adr_data as data
 
 
-def trajectory_2_fig(df, dfa, dfr):
+def trajectory_2_fig(df, dfa, dfr, centro):
 
     # fig = px.scatter_mapbox()
     #        df, lat="lat", lon="lng", mode="marker+line",
@@ -64,9 +64,9 @@ def trajectory_2_fig(df, dfa, dfr):
 
     fig.update_layout(
         mapbox_style="open-street-map",
-        mapbox_zoom=11,
-        mapbox_center_lat=df["lat"].iloc[100],
-        mapbox_center_lon=df["lng"].iloc[100],
+        mapbox_zoom=10.5,
+        mapbox_center_lat=centro[0],
+        mapbox_center_lon=centro[1],
         height=600,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend_orientation="h",
@@ -87,6 +87,7 @@ def trajectory_2_fig(df, dfa, dfr):
 def top5_anomaly_scores(route):
     df = data.score_by_route(route)
     scores = df[df["model"] == "transformer"][["trajectory_id", "scores"]]
+    scores = scores[scores["trajectory_id"]<50]
     scores = scores.sort_values("scores", ascending=True).iloc[:5]
     list_items = [dbc.ListGroupItem("Trajectory (SCORE)")]
     for n, ts in enumerate(scores.values):
@@ -101,6 +102,27 @@ def top5_anomaly_scores(route):
     return list_items
 
 @app.callback(
+    Output("list-traj-scores-down", "children"),
+    Input("route-drop-av", "value")
+)
+def last5_anomaly_scores(route):
+    df = data.score_by_route(route)
+    scores = df[df["model"] == "transformer"][["trajectory_id", "scores"]]
+    scores = scores[scores["trajectory_id"]<50]
+    scores = scores.sort_values("scores", ascending=False).iloc[:5]
+    list_items = [dbc.ListGroupItem("Trajectory (SCORE)")]
+    for n, ts in enumerate(scores.values):
+        traj = ts[0]
+        score = ts[1]
+        list_items.append(
+            dbc.ListGroupItem(
+                f"Trajectory {traj} ({score})",
+                id=f"item_down{n}", n_clicks=0, action=True,
+                color="info"
+            ))
+    return list_items
+
+@app.callback(
     Output("map_adr", "figure"),
     [
         Input("item0", "n_clicks"),
@@ -108,15 +130,28 @@ def top5_anomaly_scores(route):
         Input("item2", "n_clicks"),
         Input("item3", "n_clicks"),
         Input("item4", "n_clicks"),
+        Input("item_down0", "n_clicks"),
+        Input("item_down1", "n_clicks"),
+        Input("item_down2", "n_clicks"),
+        Input("item_down3", "n_clicks"),
+        Input("item_down4", "n_clicks"),
         Input("route-drop-av", "value")
     ]
 )
-def generate_map_from_score_list(i1, i2, i3, i4, i5, route):
+def generate_map_from_score_list(i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, route):
     ctx = dash.callback_context
+    _letra = ctx.triggered[0]["prop_id"].split(".")[0][-2]
+    idx = int(ctx.triggered[0]["prop_id"].split(".")[0][-1])
+    print(_letra)
+    if _letra == "n":
+        _asc = False
+    else:
+        _asc = True
     df = data.score_by_route(route)
     scores = df[df["model"] == "transformer"][["trajectory_id", "scores"]]
-    scores = scores.sort_values("scores", ascending=True).iloc[:5]
+    scores = scores.sort_values("scores", ascending=_asc).iloc[:5]
     idx = int(ctx.triggered[0]["prop_id"].split(".")[0][-1])
+    print(ctx.triggered[0]["prop_id"])
     traj = int(scores.iloc[idx]["trajectory_id"])
 
 
@@ -133,7 +168,8 @@ def generate_map_from_score_list(i1, i2, i3, i4, i5, route):
     #compare = list(map(lambda x, y: x != y, dft["predicted"], dft["input_token"]))
     dft.reset_index(inplace=True)
     compare = dft.index.isin(anon_idx)
-    return trajectory_2_fig(dft, dft[compare], df1)
+    centro = (dft["lat"].mean(), dft["lng"].mean())
+    return trajectory_2_fig(dft, dft[compare], df1, centro)
 
 
 

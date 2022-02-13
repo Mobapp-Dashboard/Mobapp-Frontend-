@@ -61,9 +61,10 @@ def rota_2_fig(df):
     fig.update_layout(
         mapbox_style="open-street-map",
         mapbox_zoom=11,
-        mapbox_center_lat=df["lat"].iloc[100],
-        mapbox_center_lon=df["lng"].iloc[100],
-        height=600,
+        mapbox_center_lat=53.3460,
+        #df["lat"].iloc[100],
+        mapbox_center_lon=-6.3474,
+        height=800,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend_orientation="h",
     )
@@ -256,10 +257,14 @@ def trajectory_2_fig(df, dfr):
     points = int(len(df)/2)
     fig.update_layout(
         mapbox_style="open-street-map",
-        mapbox_zoom=9.8,
-        mapbox_center_lat=df["lat"].iloc[points],
-        mapbox_center_lon=df["lng"].iloc[points],
-        #height=700,
+        mapbox_zoom=12,
+        mapbox_center_lat=53.3670,
+        #df["lat"].iloc[100],
+        mapbox_center_lon=-6.2957,
+        # mapbox_zoom=9.8,
+        # mapbox_center_lat=df["lat"].iloc[points],
+        # mapbox_center_lon=df["lng"].iloc[points],
+        height=800,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend_orientation="h",
     )

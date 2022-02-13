@@ -10,19 +10,20 @@ from utils.extract_data import get_traj
 
 
 def traj_by_traj(traj):
-    url = f"http://{BACKEND}/api/v1/gps_points/dublin/trajectory/{traj}"
+    url = f"http://{BACKEND}/api/v1/gps_points/trajectory/{traj}"
     df = get_traj(url)
     return df
 
 
 def traj_by_journey(journey):
-    url = f"http://{BACKEND}/api/v1/gps_points/dublin/points/?journey_id={journey}"
+    url = f"http://{BACKEND}/api/v1/gps_points/?dataset=dublin&journey_id={journey}"
     df = get_traj(url)
     return df
 
 
 def traj_by_journey_date(journey, start_date, end_date):
-    url = f"http://{BACKEND}/api/v1/gps_points/dublin/points/?journey_id={journey}&start_date={start_date}&end_date={end_date}"
+    url = f"http://{BACKEND}/api/v1/gps_points/?dataset=dublin&journey_id={journey}&start_date={start_date}&end_date={end_date}"
+    print(url)
     df = get_traj(url)
     return df
 
