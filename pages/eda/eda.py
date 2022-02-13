@@ -90,7 +90,7 @@ control_color = html.Div(
 
 sidebar = html.Div(
     [
-        html.H2("Exploratory Data Analysis", style=TEXT_STYLE),
+        #html.H2("Exploratory Data Analysis", style=TEXT_STYLE),
         html.Hr(),
         controls,
         html.Hr(),
@@ -140,7 +140,9 @@ pre_content = html.Div(
     [map_eda, stats_plots, dcc.Store(id="DataFrames")], style=CONTENT_STYLE
 )
 
-content = html.Div(
+content = html.Div([
+    html.H2('Exploratory Data Analysis', style=TEXT_STYLE),
+    html.Hr(),
     dbc.Container(
         dbc.Row(
             [
@@ -151,5 +153,5 @@ content = html.Div(
             ]
         ),
         fluid=True,
-    )
+    )]
 )

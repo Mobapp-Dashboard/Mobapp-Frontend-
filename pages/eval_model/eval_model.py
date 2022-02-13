@@ -3,7 +3,7 @@
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-from styles.style import CONTENT_STYLE
+from styles.style import CONTENT_STYLE, TEXT_STYLE
 
 from . import eval_model_callbacks
 from .sidebar import sidebar
@@ -122,7 +122,9 @@ traj_section = html.Div(
 # Page Layout #
 ###############
 
-page = html.Div(
+page = html.Div([
+    html.H2('Model Evaluation', style=TEXT_STYLE),
+    html.Hr(),
     dbc.Container(
         dbc.Row(
             [
@@ -132,5 +134,5 @@ page = html.Div(
             ]
         ),
         fluid=True,
-    )
+    )]
 )
