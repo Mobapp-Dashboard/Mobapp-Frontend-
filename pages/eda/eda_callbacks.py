@@ -146,8 +146,8 @@ def scatter_dist_time(df, cor="speed"):
     return fig
 
 
-turno_dict = {1: "MANHÃ", 2: "TARDE", 3: "NOITE", 4: "MADRUGADA"}
-
+#turno_dict = {1: "MANHÃ", 2: "TARDE", 3: "NOITE", 4: "MADRUGADA"}
+turno_dict = {1: "MORNING", 2: "AFTERNOON", 3: "EVENING", 4: "DAWN"}
 # @app.callback(
 #
 #     Input("DataFrames", "data")
