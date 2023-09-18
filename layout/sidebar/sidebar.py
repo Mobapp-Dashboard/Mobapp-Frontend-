@@ -8,11 +8,11 @@ import dash_html_components as html
 from environment.settings import BACKEND
 from styles.style import SIDEBAR_STYLE, TEXT_STYLE
 
-print(f"http://{BACKEND}/api/v1/trajectory_metadata/dublin/lines")
+print(f"http://{BACKEND}/api/v1/trajectory_metadata/lines")
 
 
 r = requests.get(
-    f"http://{BACKEND}/api/v1/trajectory_metadata/dublin/meta_trajectory"
+    f"http://{BACKEND}/api/v1/trajectory_metadata/meta_trajectory"
 ).json()
 
 

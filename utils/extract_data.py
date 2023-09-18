@@ -9,7 +9,7 @@ from environment.settings import BACKEND
 def get_metatraj(journey, start_date, end_date):
     @cache.memoize()
     def query_and_serialize_metatraj(journey, start_date, end_date):
-        url = f"http://{BACKEND}/api/v1/gps_points/dublin/points/?journey_id={journey}&start_date={start_date}&end_date={end_date}"
+        url = f"http://{BACKEND}/api/v1/gps_points/points/?journey_id={journey}&start_date={start_date}&end_date={end_date}"
         r = requests.get(url).json()
         df = pd.DataFrame(r)
         return df.to_json()
@@ -20,7 +20,7 @@ def get_metatraj(journey, start_date, end_date):
 def get_journey_by_date(start_date, end_date):
     @cache.memoize()
     def query_and_serialize_journeys(start_date, end_date):
-        url = f"http://{BACKEND}/api/v1/trajectory_metadata/dublin/journeys_by_date/?start_date={start_date}&end_date={end_date}"
+        url = f"http://{BACKEND}/api/v1/trajectory_metadata/journeys_by_date/?start_date={start_date}&end_date={end_date}"
         r = requests.get(url).json()
         df = pd.DataFrame(r)
         return df.to_json()
@@ -31,7 +31,7 @@ def get_journey_by_date(start_date, end_date):
 def get_traj_by_journey_date(journey, start_date, end_date):
     @cache.memoize()
     def query_and_serialize_trajs(journey, start_date, end_date):
-        url = f"http://{BACKEND}/api/v1/trajectory_metadata/dublin/trajs_by_journey_date/?journey_id={journey}&start_date={start_date}&end_date={end_date}"
+        url = f"http://{BACKEND}/api/v1/trajectory_metadata/trajs_by_journey_date/?journey_id={journey}&start_date={start_date}&end_date={end_date}"
 
         r = requests.get(url).json()
         df = pd.DataFrame(r)
